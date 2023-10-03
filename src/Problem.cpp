@@ -20,6 +20,7 @@ void Problem::addTripLength(float tripLength) {
 }
 
 std::ostream& operator<<(std::ostream& os, const Problem& problem) {
+    os << "Problem definition" << std::endl;
     os << "Vertex Amount: " << problem._vertexAmount << std::endl;
     os << "Hotels Amount: " << problem._hotelsAmount << std::endl;
     os << "Trips Amount: " << problem._tripsAmount << std::endl;
@@ -33,6 +34,11 @@ std::ostream& operator<<(std::ostream& os, const Problem& problem) {
     os << "Hotels:" << std::endl;
     for (size_t i = 0; i < problem.hotels.size(); ++i) {
         os << "  Node " << i + 1 << ": " << *problem.hotels[i] << std::endl;
+    }
+
+    os << "Customers:" << std::endl;
+    for (size_t i = 0; i < problem.customers.size(); ++i) {
+        os << "  Node " << i + 1 << ": " << *problem.customers[i] << std::endl;
     }
 
     return os;
@@ -52,4 +58,9 @@ void Problem::addHotel(float x, float y, float score, float st, float opt, float
     Node* node = new Node(x, y, score, st, opt, clt);
     this->hotels[this->current_k] = node;
     this->current_k++;
+}
+
+void Problem::addCustomer(float x, float y, float score, float st, float opt, float clt) {
+    Node* node = new Node(x, y, score, st, opt, clt);
+    this->customers.push_back(node);
 }
