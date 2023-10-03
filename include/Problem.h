@@ -17,11 +17,10 @@ class Problem {
 
         friend std::ostream& operator<<(std::ostream& os, const Problem& problem);
 
-        void addCustomer(float x, float y, float score, float st, float opt, float clt);
-
         void setFirstHotel(float x, float y, float score, float st, float opt, float clt);
         void setFinalHotel(float x, float y, float score, float st, float opt, float clt);
         void addHotel(float x, float y, float score, float st, float opt, float clt);
+        void addCustomer(float x, float y, float score, float st, float opt, float clt);
         
     
     private:

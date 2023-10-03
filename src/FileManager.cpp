@@ -81,6 +81,21 @@ Problem* FileManager::getFromFile(std::string path) {
         problem->addHotel(hData[0], hData[1], hData[2], hData[3], hData[4], hData[5]);
     }
 
+    std::string customerStr;
+    while (std::getline(inputFile, customerStr)) {
+        std::istringstream iss(customerStr);
+        std::string token;
+        iss >> token;  // Ignorar o primeiro valor (H0, H1, etc.)
+        float value;
+        std::vector<float> cData;
+        
+        while (iss >> value) {
+            cData.push_back(value);
+        }
+        
+        problem->addCustomer(cData[0], cData[1], cData[2], cData[3], cData[4], cData[5]);
+    }
+
     inputFile.close();
 
     return problem;
