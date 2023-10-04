@@ -22,7 +22,7 @@ class Problem {
         void addHotel(float x, float y, float score, float st, float opt, float clt);
         void addCustomer(float x, float y, float score, float st, float opt, float clt);
         
-    
+        int getTripsAmount() {return this->_tripsAmount;}
     private:
         int _vertexAmount;
         int _hotelsAmount;

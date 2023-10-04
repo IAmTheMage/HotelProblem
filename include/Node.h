@@ -10,6 +10,8 @@ class Node {
         ~Node();
 
         friend std::ostream& operator<<(std::ostream& os, const Node& node);
+
+        float getScore() {return this->_score;}
         
     private:
         float _x;
