@@ -25,3 +25,7 @@ void Solution::calculateSolutionScore() {
 double Solution::value() {
     return this->_value;
 }
+
+std::vector<std::vector<Node*>> Solution::getTrips() {
+    return this->trips;
+}

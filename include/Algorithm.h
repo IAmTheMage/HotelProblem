@@ -13,6 +13,7 @@ class Algorithm {
         void constructive();
 
         Solution* initial_solution;
+        Problem* data;
 };
 
 #endif
