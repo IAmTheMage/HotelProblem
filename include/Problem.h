@@ -23,6 +23,8 @@ class Problem {
         void addCustomer(float x, float y, float score, float st, float opt, float clt);
         
         int getTripsAmount() {return this->_tripsAmount;}
+        std::vector<Node*> getHotels() {return this->hotels;}
+        std::vector<Node*> getCustomers() {return this->customers;}
     private:
         int _vertexAmount;
         int _hotelsAmount;
