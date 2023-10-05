@@ -25,6 +25,7 @@ class Problem {
         int getTripsAmount() {return this->_tripsAmount;}
         std::vector<Node*> getHotels() {return this->hotels;}
         std::vector<Node*> getCustomers() {return this->customers;}
+        std::vector<float> getTripsLength() {return this->_tripsLength;}
     private:
         int _vertexAmount;
         int _hotelsAmount;
