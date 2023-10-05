@@ -11,6 +11,8 @@ class Solution {
         ~Solution();
 
         double value();
+
+        std::vector<std::vector<Node*>> getTrips();
     private:
         double _value;
 
