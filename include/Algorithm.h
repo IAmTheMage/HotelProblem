@@ -12,6 +12,8 @@ class Algorithm {
     private:
         void constructive();
 
+        double calculateTimeBetweenNodes(Node* a, Node* b);
+
         Solution* initial_solution;
         Problem* data;
 };

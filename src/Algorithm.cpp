@@ -1,4 +1,5 @@
 #include "Algorithm.h"
+#include <cmath>
 
 Algorithm::Algorithm(Problem *data) {
     this->data = data; // dados do problema
@@ -19,4 +20,9 @@ void Algorithm::constructive() {
 
     // hotel H0 inserido na primeira trip
     solution[0].push_back(hotels[0]);
+}
+
+
+double Algorithm::calculateTimeBetweenNodes(Node* a, Node* b) {
+    return sqrt(pow(a->get_x() - b->get_x(), 2) + pow(a->get_y() - b->get_y(), 2));
 }
