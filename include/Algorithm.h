@@ -21,6 +21,7 @@ class Algorithm {
 
         Solution* initial_solution;
         Problem* data;
+        std::vector<float> _tripsLength;
 };
 
 #endif
