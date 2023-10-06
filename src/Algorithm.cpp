@@ -28,14 +28,16 @@ void Algorithm::constructive() {
     for(auto trip : solution) {
 
         // Construir a lista inicial de candidatos e ordená-la
-
+        std::vector<Node*> CL = this->generateCandidateList(trip,hotels,customers,actual_trip);
         // Enquanto houver candidatos válidos
-
-        // Selecionar um candidato da lista e adicioná-lo à trip
-
-        // Retirar o candidato da lista
-
-        // Reconstruir a lista
+        while(!CL.empty()) {
+            // Selecionar um candidato da lista e adicioná-lo à trip
+            trip.push_back(CL[0]);
+            // Retirar o candidato da lista
+            CL.erase(CL.begin());
+            // Reconstruir a lista
+            CL = this->generateCandidateList(trip,hotels,CL,actual_trip);
+        }
 
         // Se a lista estiver vazia, adicionar o Hotel mais próximo
     }
