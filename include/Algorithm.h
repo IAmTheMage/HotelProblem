@@ -9,8 +9,12 @@ class Algorithm {
         Algorithm(Problem *data);
         ~Algorithm();
     
-    private:
         void constructive();
+
+        Solution* getSolution() {return this->initial_solution;}
+
+    private:
+        
 
         double localHeuristc(Node* actualNode, Node* b, double tripMaxTime);
         static bool sortCandidateListBasedOnBenefit(Node* a, Node* b);

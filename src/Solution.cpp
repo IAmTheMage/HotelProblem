@@ -2,7 +2,7 @@
 
 Solution::Solution(Problem *data) {
     std::vector<std::vector<Node*>> trips;
-    trips.reserve(data->getTripsAmount());
+    trips.resize(data->getTripsAmount(), std::vector<Node*>());
     this->trips = trips;
 }
 
@@ -28,4 +28,9 @@ double Solution::value() {
 
 std::vector<std::vector<Node*>> Solution::getTrips() {
     return this->trips;
+}
+
+void Solution::print_solution() {
+    this->calculateSolutionScore();
+    std::cout << this->value() << std::endl;
 }
