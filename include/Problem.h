@@ -22,7 +22,10 @@ class Problem {
         void addHotel(float x, float y, float score, float st, float opt, float clt);
         void addCustomer(float x, float y, float score, float st, float opt, float clt);
         
-    
+        int getTripsAmount() {return this->_tripsAmount;}
+        std::vector<Node*> getHotels() {return this->hotels;}
+        std::vector<Node*> getCustomers() {return this->customers;}
+        std::vector<float> getTripsLength() {return this->_tripsLength;}
     private:
         int _vertexAmount;
         int _hotelsAmount;
