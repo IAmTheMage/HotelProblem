@@ -18,4 +18,4 @@ class FileManager {
         static Problem* getFromFile(std::string path);
 };
 
-#endif;
+#endif
