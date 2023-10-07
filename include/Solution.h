@@ -13,6 +13,10 @@ class Solution {
         double value();
 
         std::vector<std::vector<Node*>> getTrips();
+
+        void setSolutionInstance(std::vector<std::vector<Node*>> ins) {this->trips = ins;}
+
+        void print_solution();
     private:
         double _value;
 
