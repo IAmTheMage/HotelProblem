@@ -33,6 +33,29 @@ void Algorithm::adaptativeRandomGreedy(int numIter, int block) {
 
 }
 
+std::vector<float> Algorithm::setAlphas(std::vector<float>& alphas) {
+    alphas.push_back(0.05);
+    alphas.push_back(0.07);
+    alphas.push_back(0.13);
+    alphas.push_back(0.15);
+    alphas.push_back(0.21);
+    alphas.push_back(0.47);
+    alphas.push_back(0.48);
+    alphas.push_back(0.49);
+    alphas.push_back(0.51);
+    alphas.push_back(0.22);
+    alphas.push_back(0.27);
+    alphas.push_back(0.18);
+    alphas.push_back(0.28);
+    alphas.push_back(0.34);
+    alphas.push_back(0.39);
+    alphas.push_back(0.78);
+    alphas.push_back(0.42);
+    alphas.push_back(0.09);
+    alphas.push_back(0.57);
+    alphas.push_back(0.81);
+}
+
 void Algorithm::updateProbabilities(std::vector<float>& median, std::vector<float>& probabilities, std::vector<float>& bestSolutions, std::vector<float>& q) {
     float somaQ = 0.0f;
     for(int i = 0; i < median.size(); i++) {
