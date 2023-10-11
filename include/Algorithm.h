@@ -10,11 +10,15 @@ class Algorithm {
         ~Algorithm();
 
         void randomGreedy(float alpha, int iter);
+        void adaptativeRandomGreedy(int numIter, int block);
 
         Solution* getSolution() {return this->initial_solution;}
     private:
 
         std::vector<std::vector<Node*>> randomGreedyIter(float alpha);
+
+        void initializeVectors(std::vector<float>& medians, std::vector<float>& prob, int size);
+        void updateProbabilities(std::vector<float>& median, std::vector<float>& probabilities, std::vector<float>& bestSolutions, std::vector<float>& q);
 
         double localHeuristc(Node* actualNode, Node* b, double tripMaxTime);
         static bool sortCandidateListBasedOnBenefit(Node* a, Node* b);

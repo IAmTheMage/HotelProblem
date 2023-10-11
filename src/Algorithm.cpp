@@ -29,6 +29,32 @@ double Algorithm::calculateSolutionQuality(std::vector<std::vector<Node*>> solut
     return quality;
 }
 
+void Algorithm::adaptativeRandomGreedy(int numIter, int block) {
+
+}
+
+void Algorithm::updateProbabilities(std::vector<float>& median, std::vector<float>& probabilities, std::vector<float>& bestSolutions, std::vector<float>& q) {
+    float somaQ = 0.0f;
+    for(int i = 0; i < median.size(); i++) {
+      float tmp =  bestSolutions[i] / median[i];
+      q[i] = pow((tmp), 100);
+      somaQ += q[i];
+    }
+    for(int i = 0; i < median.size(); i++) {
+      if(q[i] / somaQ != 0.0f)
+      probabilities[i] = q[i] / somaQ;
+    }
+}
+
+void Algorithm::initializeVectors(std::vector<float>& medians, std::vector<float>& prob, int size) {
+    float baseProbability = 1.0f / size;
+    float baseMedian = 1.0f;
+    for(int i = 0; i < size; i++) {
+      prob.push_back(baseProbability);
+      medians.push_back(baseMedian);
+    }
+}
+
 void Algorithm::randomGreedy(float alpha, int iter) {
     std::vector<std::vector<Node*>> solution = this->initial_solution->getTrips(); // lista vazia
 
