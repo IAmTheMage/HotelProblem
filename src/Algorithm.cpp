@@ -1,6 +1,8 @@
 #include "Algorithm.h"
 #include <cmath>
 #include <algorithm>
+#include <cstdlib>
+#include <ctime>
 
 Algorithm::Algorithm(Problem *data) {
     this->data = data; // dados do problema
@@ -8,15 +10,48 @@ Algorithm::Algorithm(Problem *data) {
 
     Solution* solution = new Solution(data);
     this->initial_solution = solution; // solução inicial vazia
+
+    // Inicia o gerador de números aleatórios
+    std::srand(std::time(0));
 }
 
 Algorithm::~Algorithm() {
     this->initial_solution->~Solution();
 }
 
-void Algorithm::constructive() {
+double Algorithm::calculateSolutionQuality(std::vector<std::vector<Node*>> solution) {
+    double quality = 0.0;
+    for(auto trip : solution) {
+        for(auto node : trip) {
+            quality += node->getScore();
+        }
+    }
+    return quality;
+}
+
+void Algorithm::randomGreedy(float alpha, int iter) {
+    std::vector<std::vector<Node*>> solution = this->initial_solution->getTrips(); // lista vazia
+
+    std::vector<std::vector<Node*>> best_solution = this->initial_solution->getTrips(); // lista vazia
+
+    best_solution = this->randomGreedyIter(alpha);
+
+    for(int i=1; i<iter; i++) {
+        this->_tripsLength = this->data->getTripsLength();
+        solution = this->randomGreedyIter(alpha);
+        if(this->calculateSolutionQuality(solution) > this->calculateSolutionQuality(best_solution)) {
+            best_solution = solution;
+        }
+    }
+
+    this->initial_solution->setSolutionInstance(best_solution);
+}
+
+std::vector<std::vector<Node*>> Algorithm::randomGreedyIter(float alpha) {
     std::vector<std::vector<Node*>> solution = this->initial_solution->getTrips(); // lista vazia
     std::vector<Node*> trip;
+    int random_index;
+    Node *aux;
 
     std::vector<Node*> CL;
 
@@ -41,10 +76,14 @@ void Algorithm::constructive() {
 
         // Enquanto houver candidatos válidos
         while(!CL.empty()) {
+            // Índice aleatório
+            random_index = static_cast<int>(alpha*CL.size());
+            if(random_index!=0)
+                random_index = std::rand() % random_index;
             // Selecionar um candidato da lista e adicioná-lo à trip
-            solution[actual_trip_index].push_back(CL[0]);
+            solution[actual_trip_index].push_back(CL[random_index]);
             // Retirar o candidato da lista
-            CL.erase(CL.begin());
+            CL.erase(CL.begin()+random_index);
             
             // Diminuir o tempo da trip
             trip = solution[actual_trip_index];
@@ -55,7 +94,8 @@ void Algorithm::constructive() {
         }
         // Se a lista estiver vazia, adicionar o Hotel mais próximo
         for(auto hotel : hotels) {
-            if((this->_tripsLength[actual_trip_index] - this->calculateTimeBetweenNodes(trip[trip.size()-1],hotel)) >= 0) {
+            aux = trip[trip.size()-1];
+            if((this->_tripsLength[actual_trip_index] - this->calculateTimeBetweenNodes(aux,hotel)) >= 0) {
                 solution[actual_trip_index].push_back(hotel);
                 if(actual_trip_index + 1 < solution.size()) {
                     solution[actual_trip_index + 1].push_back(hotel);
@@ -65,7 +105,8 @@ void Algorithm::constructive() {
         }
     }
 
-    this->initial_solution->setSolutionInstance(solution);
+    //this->initial_solution->setSolutionInstance(solution);
+    return solution;
 }
 
 
