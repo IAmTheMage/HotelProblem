@@ -10,6 +10,7 @@ Algorithm::Algorithm(Problem *data) {
 
     Solution* solution = new Solution(data);
     this->initial_solution = solution; // solução inicial vazia
+    this->best_solution = solution;
 
     // Inicia o gerador de números aleatórios
     std::srand(std::time(0));
@@ -29,34 +30,68 @@ double Algorithm::calculateSolutionQuality(std::vector<std::vector<Node*>> solut
     return quality;
 }
 
-void Algorithm::adaptativeRandomGreedy(int numIter, int block) {
+void Algorithm::adaptativeRandomGreedy(int numIter, int block, int randomGreedyNumIter) {
+    std::vector<std::vector<Node*>> bestSolution = this->initial_solution->getTrips(); // lista vazia
+    std::vector<std::vector<Node*>> solution = this->initial_solution->getTrips(); // lista vazia
 
+    std::vector<float> alphas;
+    this->setAlphas(alphas);
+
+    std::vector<double> medians; //Vetor de médias
+    std::vector<double> sums; // Vetor de somas (suporte para as médias)
+    std::vector<double> bestSolutions; // Vetor para armazenar a melhor solução para cada alfa
+    std::vector<double> probabilities;
+    std::vector<double> q; // Suporte para atualização de probabilidades de cada alfa
+    std::vector<int> solutionsAmount;
+
+    int index;
+    double alpha_quality;
+
+    int alphas_size = alphas.size();
+
+    for(int i = 0; i < alphas_size; i++) {
+      bestSolutions.push_back(0.0f);
+      q.push_back(0.0f);
+      sums.push_back(0.0f);
+      solutionsAmount.push_back(0);
+    }
+
+    this->initializeVectors(medians,probabilities,alphas_size);
+
+    for(int i=1; i<(numIter+1); i++) {
+        if(i % 50 == 0)
+            std::cout << "===================== " << i << " =====================\n";
+        if(i % block == 0) {
+            this->updateProbabilities(medians,probabilities,bestSolutions,q);
+        }
+        index = this->selectProbabilitie(probabilities);
+        solution = this->randomGreedy(alphas[index], randomGreedyNumIter);
+        alpha_quality = this->calculateSolutionQuality(solution);
+        this->updateMedians(medians, alpha_quality, alphas, sums, alphas[index], solutionsAmount);
+
+        if(bestSolutions[index] < alpha_quality) {
+            bestSolutions[index] = alpha_quality;
+        }
+        if(this->calculateSolutionQuality(this->best_solution->getTrips()) < this->calculateSolutionQuality(solution)) {
+            this->best_solution->setSolutionInstance(solution);
+        }
+    }
 }
 
-std::vector<float> Algorithm::setAlphas(std::vector<float>& alphas) {
+void Algorithm::setAlphas(std::vector<float>& alphas) {
     alphas.push_back(0.05);
-    alphas.push_back(0.07);
-    alphas.push_back(0.13);
-    alphas.push_back(0.15);
-    alphas.push_back(0.21);
-    alphas.push_back(0.47);
-    alphas.push_back(0.48);
-    alphas.push_back(0.49);
-    alphas.push_back(0.51);
-    alphas.push_back(0.22);
-    alphas.push_back(0.27);
-    alphas.push_back(0.18);
-    alphas.push_back(0.28);
-    alphas.push_back(0.34);
-    alphas.push_back(0.39);
-    alphas.push_back(0.78);
-    alphas.push_back(0.42);
     alphas.push_back(0.09);
+    alphas.push_back(0.13);
+    alphas.push_back(0.21);
+    alphas.push_back(0.28);
+    alphas.push_back(0.39);
+    alphas.push_back(0.51);
+    alphas.push_back(0.78);
     alphas.push_back(0.57);
     alphas.push_back(0.81);
 }
 
-void Algorithm::updateProbabilities(std::vector<float>& median, std::vector<float>& probabilities, std::vector<float>& bestSolutions, std::vector<float>& q) {
+void Algorithm::updateProbabilities(std::vector<double>& median, std::vector<double>& probabilities, std::vector<double>& bestSolutions, std::vector<double>& q) {
     float somaQ = 0.0f;
     for(int i = 0; i < median.size(); i++) {
       float tmp =  bestSolutions[i] / median[i];
@@ -69,23 +104,50 @@ void Algorithm::updateProbabilities(std::vector<float>& median, std::vector<floa
     }
 }
 
-void Algorithm::initializeVectors(std::vector<float>& medians, std::vector<float>& prob, int size) {
-    float baseProbability = 1.0f / size;
-    float baseMedian = 1.0f;
+int Algorithm::selectProbabilitie(std::vector<double>& prob) {
+    std::vector<int> indexes;
+    for(int i = 0; i < prob.size(); i++) {
+      for(int j = 0; j < (int)(prob[i] * 100); j++) {
+        indexes.push_back(i);
+      }
+    }
+    int random = rand() % indexes.size();
+    return indexes[random];
+}
+
+void Algorithm::updateMedians(std::vector<double>& medians, double solution, std::vector<float> alphas,  std::vector<double> sums, float alpha, std::vector<int> solutionsAmount) {
+    int index;
+    for(int i = 0; i < alphas.size(); i++) {
+      if(alpha == alphas[i]) {
+        index = i;
+        break;
+      } 
+    }
+    sums[index] += solution;
+    solutionsAmount[index] += solutionsAmount[index] + 1;
+    medians[index] = sums[index] / solutionsAmount[index];
+}
+
+void Algorithm::initializeVectors(std::vector<double>& medians, std::vector<double>& prob, int size) {
+    double baseProbability = 1.0f / size;
+    double baseMedian = 1.0f;
     for(int i = 0; i < size; i++) {
       prob.push_back(baseProbability);
       medians.push_back(baseMedian);
     }
 }
 
-void Algorithm::randomGreedy(float alpha, int iter) {
-    std::vector<std::vector<Node*>> solution = this->initial_solution->getTrips(); // lista vazia
+std::vector<std::vector<Node*>> Algorithm::randomGreedy(float alpha, int iter) {
+    std::vector<std::vector<Node*>> solution;
+    solution.resize(data->getTripsAmount(), std::vector<Node*>()); // lista vazia
 
-    std::vector<std::vector<Node*>> best_solution = this->initial_solution->getTrips(); // lista vazia
+    std::vector<std::vector<Node*>> best_solution = solution; // lista vazia
 
+    this->_tripsLength = this->data->getTripsLength();
     best_solution = this->randomGreedyIter(alpha);
 
     for(int i=1; i<iter; i++) {
+        this->_tripsLength = this->data->getTripsLength();
         this->_tripsLength = this->data->getTripsLength();
         solution = this->randomGreedyIter(alpha);
         if(this->calculateSolutionQuality(solution) > this->calculateSolutionQuality(best_solution)) {
@@ -93,11 +155,14 @@ void Algorithm::randomGreedy(float alpha, int iter) {
         }
     }
 
-    this->initial_solution->setSolutionInstance(best_solution);
+    //this->initial_solution->setSolutionInstance(best_solution);
+
+    return best_solution;
 }
 
 std::vector<std::vector<Node*>> Algorithm::randomGreedyIter(float alpha) {
-    std::vector<std::vector<Node*>> solution = this->initial_solution->getTrips(); // lista vazia
+    std::vector<std::vector<Node*>> solution;
+    solution.resize(data->getTripsAmount(), std::vector<Node*>());
     std::vector<Node*> trip;
     int random_index;
     Node *aux;

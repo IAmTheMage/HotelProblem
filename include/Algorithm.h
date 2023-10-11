@@ -9,18 +9,19 @@ class Algorithm {
         Algorithm(Problem *data);
         ~Algorithm();
 
-        void randomGreedy(float alpha, int iter);
-        void adaptativeRandomGreedy(int numIter, int block);
+        std::vector<std::vector<Node*>> randomGreedy(float alpha, int iter);
+        void adaptativeRandomGreedy(int numIter, int block, int randomGreedyNumIter);
 
-        Solution* getSolution() {return this->initial_solution;}
+        Solution* getSolution() {return this->best_solution;}
     private:
 
         std::vector<std::vector<Node*>> randomGreedyIter(float alpha);
 
-        std::vector<float> setAlphas(std::vector<float>& alphas);
-        void initializeVectors(std::vector<float>& medians, std::vector<float>& prob, int size);
-        void updateProbabilities(std::vector<float>& median, std::vector<float>& probabilities, std::vector<float>& bestSolutions, std::vector<float>& q);
-        void updateMedians();
+        void setAlphas(std::vector<float>& alphas);
+        void initializeVectors(std::vector<double>& medians, std::vector<double>& prob, int size);
+        void updateProbabilities(std::vector<double>& median, std::vector<double>& probabilities, std::vector<double>& bestSolutions, std::vector<double>& q);
+        int selectProbabilitie(std::vector<double>& prob);
+        void updateMedians(std::vector<double>& medians, double solution, std::vector<float> alphas,  std::vector<double> sums, float alpha, std::vector<int> solutionsAmount);
 
         double localHeuristc(Node* actualNode, Node* b, double tripMaxTime);
         static bool sortCandidateListBasedOnBenefit(Node* a, Node* b);
@@ -31,6 +32,7 @@ class Algorithm {
         double calculateTimeBetweenNodes(Node* a, Node* b);
 
         Solution* initial_solution;
+        Solution* best_solution;
         Problem* data;
         std::vector<float> _tripsLength;
 };
