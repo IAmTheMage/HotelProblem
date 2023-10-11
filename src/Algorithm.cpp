@@ -30,11 +30,12 @@ double Algorithm::calculateSolutionQuality(std::vector<std::vector<Node*>> solut
     return quality;
 }
 
+// @param número de iterações do reativo, tamanho do bloco, quantidade de iterações da fase randomica
 void Algorithm::adaptativeRandomGreedy(int numIter, int block, int randomGreedyNumIter) {
     std::vector<std::vector<Node*>> bestSolution = this->initial_solution->getTrips(); // lista vazia
     std::vector<std::vector<Node*>> solution = this->initial_solution->getTrips(); // lista vazia
 
-    std::vector<float> alphas;
+    std::vector<float> alphas; //vetor dos valores alphas considerados
     this->setAlphas(alphas);
 
     std::vector<double> medians; //Vetor de médias
@@ -49,6 +50,7 @@ void Algorithm::adaptativeRandomGreedy(int numIter, int block, int randomGreedyN
 
     int alphas_size = alphas.size();
 
+    // Inicialização dos vetores de suporte
     for(int i = 0; i < alphas_size; i++) {
       bestSolutions.push_back(0.0f);
       q.push_back(0.0f);
@@ -59,23 +61,23 @@ void Algorithm::adaptativeRandomGreedy(int numIter, int block, int randomGreedyN
     this->initializeVectors(medians,probabilities,alphas_size);
 
     for(int i=1; i<(numIter+1); i++) {
-        if(i % 50 == 0)
-            std::cout << "===================== " << i << " =====================\n";
         if(i % block == 0) {
-            this->updateProbabilities(medians,probabilities,bestSolutions,q);
+            this->updateProbabilities(medians,probabilities,bestSolutions,q); // Atualização das probabilidades
         }
-        index = this->selectProbabilitie(probabilities);
-        solution = this->randomGreedy(alphas[index], randomGreedyNumIter);
+        index = this->selectProbabilitie(probabilities); // Seleção do índice do valor alpha
+        solution = this->randomGreedy(alphas[index], randomGreedyNumIter); // geração da melhor solução do randomizado
         alpha_quality = this->calculateSolutionQuality(solution);
-        this->updateMedians(medians, alpha_quality, alphas, sums, alphas[index], solutionsAmount);
+        this->updateMedians(medians, alpha_quality, alphas, sums, alphas[index], solutionsAmount); // Atualização das médias
 
         if(bestSolutions[index] < alpha_quality) {
-            bestSolutions[index] = alpha_quality;
+            bestSolutions[index] = alpha_quality; // Atualização da qualidade do i-ésimo valor alpha
         }
         if(this->calculateSolutionQuality(this->best_solution->getTrips()) < this->calculateSolutionQuality(solution)) {
             this->best_solution->setSolutionInstance(solution);
         }
     }
+
+    std::cout << "Guloso Randomizado Reativo finalizado!\n";
 }
 
 void Algorithm::setAlphas(std::vector<float>& alphas) {
@@ -154,8 +156,6 @@ std::vector<std::vector<Node*>> Algorithm::randomGreedy(float alpha, int iter) {
             best_solution = solution;
         }
     }
-
-    //this->initial_solution->setSolutionInstance(best_solution);
 
     return best_solution;
 }
