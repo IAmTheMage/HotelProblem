@@ -10,7 +10,7 @@ class Algorithm {
         ~Algorithm();
 
         std::vector<std::vector<Node*>> randomGreedy(float alpha, int iter);
-        void adaptativeRandomGreedy(int numIter, int block, int randomGreedyNumIter);
+        void adaptativeRandomGreedy(int numIter, int block, int randomGreedyNumIter, int verboseLevel);
 
         Solution* getSolution() {return this->best_solution;}
     private:

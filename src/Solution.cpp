@@ -36,9 +36,11 @@ void Solution::print_solution() {
         for(auto i : trip) {
             std::cout << "Node: (" << i->get_x() << "," << i->get_y() << ") Score: " << i->getScore() << std::endl;
         }
-        std::cout << "==================================\n";
+        std::cout << "-------------------------------------\n";
     }
 
     this->calculateSolutionScore();
-    std::cout << this->value() << std::endl;
+    std::cout << "\nQualidade da solução: " << this->value() << std::endl;
+
+    std::cout << "\n=======================================\n";
 }

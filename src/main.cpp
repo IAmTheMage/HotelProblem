@@ -12,7 +12,9 @@ int main(int argc, char const *argv[])
     defs->setNodeIds();
     Algorithm *alg = new Algorithm(defs);
 
-    alg->adaptativeRandomGreedy(200, 10, 200);
+    int verbose = 100;
+
+    alg->adaptativeRandomGreedy(500, 20, 100, verbose);
 
     alg->getSolution()->print_solution();
 

@@ -53,7 +53,7 @@ double Algorithm::calculateSolutionQuality(std::vector<std::vector<Node*>> solut
 }
 
 // @param número de iterações do reativo, tamanho do bloco, quantidade de iterações da fase randomica
-void Algorithm::adaptativeRandomGreedy(int numIter, int block, int randomGreedyNumIter) {
+void Algorithm::adaptativeRandomGreedy(int numIter, int block, int randomGreedyNumIter, int verboseLevel) {
     std::vector<std::vector<Node*>> bestSolution = this->initial_solution->getTrips(); // lista vazia
     std::vector<std::vector<Node*>> solution = this->initial_solution->getTrips(); // lista vazia
 
@@ -97,9 +97,14 @@ void Algorithm::adaptativeRandomGreedy(int numIter, int block, int randomGreedyN
         if(this->calculateSolutionQuality(this->best_solution->getTrips()) < this->calculateSolutionQuality(solution)) {
             this->best_solution->setSolutionInstance(solution);
         }
+
+        if(i % verboseLevel == 0) {
+            std::cout << "\nMelhor solução da iteração " << i << "\n\n";
+            this->best_solution->print_solution();
+        }
     }
 
-    std::cout << "Guloso Randomizado Reativo finalizado!\n";
+    std::cout << "Guloso Randomizado Reativo finalizado!\n\n";
 }
 
 void Algorithm::setAlphas(std::vector<float>& alphas) {
