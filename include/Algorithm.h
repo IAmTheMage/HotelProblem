@@ -13,6 +13,7 @@ class Algorithm {
         void adaptativeRandomGreedy(int numIter, int block, int randomGreedyNumIter, int verboseLevel);
 
         Solution* getSolution() {return this->best_solution;}
+        std::vector<Node*> getUnusedCustomers() {return this->unused_customers;}
     private:
 
         std::vector<std::vector<Node*>> randomGreedyIter(float alpha);
@@ -32,12 +33,14 @@ class Algorithm {
         double calculateTimeBetweenNodes(Node* a, Node* b);
 
         void makeDistanceMatrix(int size);
+        void scraping_unused_customers();
 
         Solution* initial_solution;
         Solution* best_solution;
         Problem* data;
         std::vector<float> _tripsLength;
         std::vector<std::vector<double>> distance_matrix;
+        std::vector<Node*> unused_customers;
 };
 
 #endif

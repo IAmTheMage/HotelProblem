@@ -104,6 +104,8 @@ void Algorithm::adaptativeRandomGreedy(int numIter, int block, int randomGreedyN
         }
     }
 
+    this->scraping_unused_customers();
+
     std::cout << "Guloso Randomizado Reativo finalizado!\n\n";
 }
 
@@ -249,6 +251,30 @@ std::vector<std::vector<Node*>> Algorithm::randomGreedyIter(float alpha) {
     return solution;
 }
 
+void Algorithm::scraping_unused_customers() {
+    std::vector<Node*> customers = this->data->getCustomers();
+    std::vector<Node*> Solution;
+    std::vector<std::vector<Node*>> bestSolution = this->best_solution->getTrips();
+
+    for(auto trip : bestSolution) {
+        for(auto i : trip) {
+            Solution.push_back(i);
+        }
+    }
+
+    auto element_is_in = [&bestSolution](Node* element) {
+        for(const auto& trip : bestSolution) {
+            if(std::find(trip.begin(), trip.end(), element) != trip.end()) {
+                return true;
+            }
+        }
+        return false;
+    };
+
+    customers.erase(std::remove_if(customers.begin(), customers.end(), element_is_in), customers.end());
+
+    this->unused_customers = customers;
+}
 
 double Algorithm::calculateTimeBetweenNodes(Node* a, Node* b) {
     return sqrt(pow(a->get_x() - b->get_x(), 2) + pow(a->get_y() - b->get_y(), 2));
