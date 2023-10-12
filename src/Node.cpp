@@ -1,12 +1,9 @@
 #include "Node.h"
 
-Node::Node(float x, float y, float score, float st, float opt, float clt) {
+Node::Node(float x, float y, float score) {
     _x = x;
     _y = y;
     _score = score;
-    _st = st;
-    _opt = opt;
-    _clt = clt;
 }
 
 Node::~Node() {

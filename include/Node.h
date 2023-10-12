@@ -6,7 +6,7 @@
 
 class Node {
     public:
-        Node(float x, float y, float score, float st, float opt, float clt);
+        Node(float x, float y, float score);
         ~Node();
 
         friend std::ostream& operator<<(std::ostream& os, const Node& node);

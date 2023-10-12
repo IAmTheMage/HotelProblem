@@ -181,8 +181,7 @@ std::vector<std::vector<Node*>> Algorithm::randomGreedyIter(float alpha) {
         bool isLastTrip = ((solution.size() - actual_trip_index) == 1) ? 1 : 0;
         // Se estiver na última trip irá considerar apenas o hotel H1 como hotel válido.
         if(isLastTrip) {
-            hotels.erase(hotels.begin());
-            hotels.erase(hotels.begin() + 1, hotels.end());
+            hotels.erase(hotels.begin(), hotels.end()-1);
         }
 
         // Construir a lista inicial de candidatos e ordená-la
