@@ -18,6 +18,9 @@ class Node {
 
         void setActualBenefit(double benefit) {this->_actual_benefit = benefit;}
         double getBenefit() {return this->_actual_benefit;}
+
+        void setId(int id) {this->id = id;}
+        int getId() {return this->id;}
     private:
         float _x;
         float _y;
@@ -27,6 +30,7 @@ class Node {
         float _clt;
 
         double _actual_benefit;
+        int id;
 };
 
 #endif

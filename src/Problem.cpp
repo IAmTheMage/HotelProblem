@@ -64,3 +64,15 @@ void Problem::addCustomer(float x, float y, float score) {
     Node* node = new Node(x, y, score);
     this->customers.push_back(node);
 }
+
+void Problem::setNodeIds() {
+    int k;
+    for(int i=0; i<this->hotels.size(); i++) {
+        k = i;
+        this->hotels[i]->setId(k);
+    }
+    for(int i=0; i<this->customers.size(); i++) {
+        k++;
+        this->customers[i]->setId(k);
+    }
+}

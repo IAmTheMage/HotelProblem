@@ -31,10 +31,13 @@ class Algorithm {
         double calculateSolutionQuality(std::vector<std::vector<Node*>> solution);
         double calculateTimeBetweenNodes(Node* a, Node* b);
 
+        void makeDistanceMatrix(int size);
+
         Solution* initial_solution;
         Solution* best_solution;
         Problem* data;
         std::vector<float> _tripsLength;
+        std::vector<std::vector<double>> distance_matrix;
 };
 
 #endif

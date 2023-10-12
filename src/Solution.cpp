@@ -1,4 +1,5 @@
 #include "Solution.h"
+#include <math.h>
 
 Solution::Solution(Problem *data) {
     std::vector<std::vector<Node*>> trips;
@@ -31,6 +32,13 @@ std::vector<std::vector<Node*>> Solution::getTrips() {
 }
 
 void Solution::print_solution() {
+    for(auto trip : this->trips) {
+        for(auto i : trip) {
+            std::cout << "Node: (" << i->get_x() << "," << i->get_y() << ") Score: " << i->getScore() << std::endl;
+        }
+        std::cout << "==================================\n";
+    }
+
     this->calculateSolutionScore();
     std::cout << this->value() << std::endl;
 }

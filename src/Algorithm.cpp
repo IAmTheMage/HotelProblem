@@ -12,12 +12,34 @@ Algorithm::Algorithm(Problem *data) {
     this->initial_solution = solution; // solução inicial vazia
     this->best_solution = solution;
 
+    this->makeDistanceMatrix(data->getCustomers().size() + data->getHotels().size());
     // Inicia o gerador de números aleatórios
     std::srand(std::time(0));
 }
 
 Algorithm::~Algorithm() {
     this->initial_solution->~Solution();
+}
+
+void Algorithm::makeDistanceMatrix(int size) {
+    std::vector<std::vector<double>> matrix;
+    matrix.resize(size, std::vector<double>());
+    std::vector<Node*> nos;
+
+    for(int i=0; i<this->data->getHotels().size(); i++) {
+        nos.push_back(this->data->getHotels()[i]);
+    }
+    for(int i=0; i<this->data->getCustomers().size(); i++) {
+        nos.push_back(this->data->getCustomers()[i]);
+    }
+
+    for(int i=0; i<size; i++) {
+        for(int j=0; j<size; j++) {
+            matrix[i].push_back(this->calculateTimeBetweenNodes(nos[i], nos[j]));
+        }
+    }
+
+    this->distance_matrix = matrix;
 }
 
 double Algorithm::calculateSolutionQuality(std::vector<std::vector<Node*>> solution) {
@@ -200,15 +222,15 @@ std::vector<std::vector<Node*>> Algorithm::randomGreedyIter(float alpha) {
             
             // Diminuir o tempo da trip
             trip = solution[actual_trip_index];
-            this->_tripsLength[actual_trip_index] -= this->calculateTimeBetweenNodes(trip[trip.size()-1],trip[trip.size()-2]);
-
+            //this->_tripsLength[actual_trip_index] -= this->calculateTimeBetweenNodes(trip[trip.size()-1],trip[trip.size()-2]);
+            this->_tripsLength[actual_trip_index] -= this->distance_matrix[trip[trip.size()-1]->getId()][trip[trip.size()-2]->getId()];
             // Reconstruir a lista
             CL = this->generateCandidateList(trip,hotels,CL,actual_trip_index);
         }
         // Se a lista estiver vazia, adicionar o Hotel mais próximo
         for(auto hotel : hotels) {
             aux = trip[trip.size()-1];
-            if((this->_tripsLength[actual_trip_index] - this->calculateTimeBetweenNodes(aux,hotel)) >= 0) {
+            if((this->_tripsLength[actual_trip_index] - this->distance_matrix[aux->getId()][hotel->getId()]) >= 0) {
                 solution[actual_trip_index].push_back(hotel);
                 if(actual_trip_index + 1 < solution.size()) {
                     solution[actual_trip_index + 1].push_back(hotel);
@@ -243,7 +265,7 @@ std::vector<Node*> Algorithm::generateCandidateList(std::vector<Node*> trip, std
         // Avaliar se o tempo dele até algum hotel arbitrário está dentro do tempo da trip atual, se estiver, adicionar na lista de candidatos
         for(auto hotel : hotels) {
             // Leva em consideração o tempo de chegar nesse customer com o nó da trip atual e o tempo do customer chegar ao primeiro hotel possível
-            if((tripMaxTime - this->calculateTimeBetweenNodes(customer,hotel) - this->calculateTimeBetweenNodes(customer,trip[trip.size() - 1])) > 0) {
+            if((tripMaxTime - this->distance_matrix[customer->getId()][hotel->getId()] - this->distance_matrix[customer->getId()][trip[trip.size() - 1]->getId()]) > 0) {
                 CL.push_back(customer);
                 break;
             }
@@ -259,7 +281,7 @@ std::vector<Node*> Algorithm::generateCandidateList(std::vector<Node*> trip, std
 
 // Heurística local considerando o score do nó e o tempo para alcançar o nó a partir do nó atual.
 double Algorithm::localHeuristc(Node* actualNode, Node* b, double tripMaxTime) {
-    double time = this->calculateTimeBetweenNodes(actualNode,b);
+    double time = this->distance_matrix[actualNode->getId()][b->getId()];
     double benefit = b->getScore() / time;
     benefit *= (tripMaxTime - time);
 
