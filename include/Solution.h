@@ -17,12 +17,15 @@ class Solution {
         void setSolutionInstance(std::vector<std::vector<Node*>> ins) {this->trips = ins;}
 
         void print_solution();
+
+        void calculateTripLength();
     private:
         double _value;
 
         void calculateSolutionScore();
 
         std::vector<std::vector<Node*>> trips;
+        std::vector<double> trips_length;
 };
 
 #endif

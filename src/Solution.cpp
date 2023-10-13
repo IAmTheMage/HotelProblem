@@ -42,5 +42,32 @@ void Solution::print_solution() {
     this->calculateSolutionScore();
     std::cout << "\nQualidade da solução: " << this->value() << std::endl;
 
+    this->calculateTripLength();
+
+    for(auto i : this->trips_length) {
+        std::cout << i << "\n";
+    }
+
     std::cout << "\n=======================================\n";
+}
+
+
+void Solution::calculateTripLength() {
+    std::vector<double> aux;
+    double sum = (double)0.0;
+    Node* a;
+    Node* b;
+    for(auto trip : this->trips) {
+        for(int j=0; j<trip.size()-1; j++) {
+            a = trip[j];
+            b = trip[j+1];
+            sum = sum + sqrt(pow(a->get_x() - b->get_x(),2) + pow(a->get_y() - b->get_y(),2));
+        }
+        aux.push_back(sum);
+        sum = (double)0.0;
+    }
+
+    std::cout << aux.size() << "\n";
+
+    this->trips_length = aux;
 }
