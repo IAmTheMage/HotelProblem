@@ -10,5 +10,6 @@ include_directories(include)
 # Coleta todos os arquivos fonte (.cpp) na pasta "src"
 file(GLOB SOURCES "src/*.cpp")
 
+
 # Cria um executável a partir dos arquivos fonte
 add_executable(HotelProblem ${SOURCES})
