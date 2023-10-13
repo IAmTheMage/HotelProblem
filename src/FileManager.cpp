@@ -16,7 +16,6 @@ Problem* FileManager::getFromFile(std::string path) {
         std::cerr << "Error opening the file." << std::endl;
     }
 
-
     std::string firstLine;
     std::getline(inputFile, firstLine);
     std::istringstream iss(firstLine);
@@ -55,22 +54,22 @@ Problem* FileManager::getFromFile(std::string path) {
     data.reserve(12);
     for (int i = 0; i < 2 && std::getline(inputFile, firstAndFinalHotel); ++i) {
         std::istringstream iss(firstAndFinalHotel);
-        std::string token;
-        iss >> token;  // Ignorar o primeiro valor (H0, H1, etc.)
+        //std::string token;
+        //iss >> token;  // Ignorar o primeiro valor (H0, H1, etc.)
         float value;
         while (iss >> value) {
             data.push_back(value);
         }
     }
 
-    problem->setFirstHotel(data[0], data[1], data[2], data[3], data[4], data[5]);
-    problem->setFinalHotel(data[6], data[7], data[8], data[9], data[10], data[11]);
+    problem->setFirstHotel(data[0], data[1], data[2]);
+    problem->setFinalHotel(data[3], data[4], data[5]);
 
     std::string hotelsStr;
     for (int i = 0; i < val2 && std::getline(inputFile, hotelsStr); ++i) {
         std::istringstream iss(hotelsStr);
-        std::string token;
-        iss >> token;  // Ignorar o primeiro valor (H0, H1, etc.)
+        //std::string token;
+        //iss >> token;  // Ignorar o primeiro valor (H0, H1, etc.)
         float value;
         std::vector<float> hData;
         
@@ -78,14 +77,14 @@ Problem* FileManager::getFromFile(std::string path) {
             hData.push_back(value);
         }
         
-        problem->addHotel(hData[0], hData[1], hData[2], hData[3], hData[4], hData[5]);
+        problem->addHotel(hData[0], hData[1], hData[2]);
     }
 
     std::string customerStr;
     while (std::getline(inputFile, customerStr)) {
         std::istringstream iss(customerStr);
-        std::string token;
-        iss >> token;  // Ignorar o primeiro valor (H0, H1, etc.)
+        //std::string token;
+        //iss >> token;  // Ignorar o primeiro valor (H0, H1, etc.)
         float value;
         std::vector<float> cData;
         
@@ -93,7 +92,7 @@ Problem* FileManager::getFromFile(std::string path) {
             cData.push_back(value);
         }
         
-        problem->addCustomer(cData[0], cData[1], cData[2], cData[3], cData[4], cData[5]);
+        problem->addCustomer(cData[0], cData[1], cData[2]);
     }
 
     inputFile.close();

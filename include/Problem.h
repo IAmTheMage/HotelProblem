@@ -17,10 +17,10 @@ class Problem {
 
         friend std::ostream& operator<<(std::ostream& os, const Problem& problem);
 
-        void setFirstHotel(float x, float y, float score, float st, float opt, float clt);
-        void setFinalHotel(float x, float y, float score, float st, float opt, float clt);
-        void addHotel(float x, float y, float score, float st, float opt, float clt);
-        void addCustomer(float x, float y, float score, float st, float opt, float clt);
+        void setFirstHotel(float x, float y, float score);
+        void setFinalHotel(float x, float y, float score);
+        void addHotel(float x, float y, float score);
+        void addCustomer(float x, float y, float score);
         
         int getTripsAmount() {return this->_tripsAmount;}
         std::vector<Node*> getHotels() {return this->hotels;}
