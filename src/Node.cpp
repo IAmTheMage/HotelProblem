@@ -17,3 +17,13 @@ std::ostream& operator<<(std::ostream& os, const Node& node) {
 
     return os;
 }
+
+Node::Node(const Node* other) {
+    this->_x = other->_x;
+    this->_y = other->_y;
+    this->_score = other->_score;
+    this->_st = other->_st;
+    this->_opt = other->_opt;
+    this->_clt = other->_clt;
+    this->_actual_benefit = other->_actual_benefit;
+}
