@@ -48,6 +48,8 @@
         "streambuf": "cpp",
         "typeinfo": "cpp",
         "optional": "cpp",
-        "ctime": "cpp"
+        "ctime": "cpp",
+        "cstring": "cpp",
+        "cinttypes": "cpp"
     }
 }

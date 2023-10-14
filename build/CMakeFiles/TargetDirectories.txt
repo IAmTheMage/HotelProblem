@@ -1,0 +1,3 @@
+/home/iamthemage/Documentos/HotelProblem/build/CMakeFiles/HotelProblem.dir
+/home/iamthemage/Documentos/HotelProblem/build/CMakeFiles/edit_cache.dir
+/home/iamthemage/Documentos/HotelProblem/build/CMakeFiles/rebuild_cache.dir

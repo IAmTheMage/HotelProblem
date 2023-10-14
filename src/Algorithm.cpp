@@ -282,6 +282,7 @@ void Algorithm::scraping_unused_customers() {
     customers.erase(std::remove_if(customers.begin(), customers.end(), element_is_in), customers.end());
 
     this->unused_customers = customers;
+    this->best_solution->setUnusedCustomers(this->unused_customers);
 }
 
 double Algorithm::calculateTimeBetweenNodes(Node* a, Node* b) {
