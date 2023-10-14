@@ -26,4 +26,5 @@ Node::Node(const Node* other) {
     this->_opt = other->_opt;
     this->_clt = other->_clt;
     this->_actual_benefit = other->_actual_benefit;
+    this->id = other->id;
 }

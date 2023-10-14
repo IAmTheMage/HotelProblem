@@ -25,6 +25,8 @@ Problem* FileManager::getFromFile(std::string path) {
         std::cerr << "Erro ao ler os três valores inteiros da primeira linha." << std::endl;
     }
 
+    std::cout << val1 << ":" << val2 << ":" << val3 << std::endl;
+
     // Lê a segunda linha e converte para um inteiro
     std::string secondLine;
     std::getline(inputFile, secondLine);
@@ -33,6 +35,8 @@ Problem* FileManager::getFromFile(std::string path) {
     if (!(iss2 >> singleValue)) {
         std::cerr << "Erro ao ler o valor inteiro da segunda linha." << std::endl;
     }
+
+    std::cout << singleValue << std::endl;
 
     std::string thirdLine;
 
@@ -66,6 +70,8 @@ Problem* FileManager::getFromFile(std::string path) {
     problem->setFirstHotel(data[0], data[1], data[2]);
     problem->setFinalHotel(data[3], data[4], data[5]);
 
+    
+
     std::string hotelsStr;
     for (int i = 0; i < val2 && std::getline(inputFile, hotelsStr); ++i) {
         std::istringstream iss(hotelsStr);
@@ -80,6 +86,7 @@ Problem* FileManager::getFromFile(std::string path) {
         
         problem->addHotel(hData[0], hData[1], hData[2]);
     }
+    
 
     std::string customerStr;
     while (std::getline(inputFile, customerStr)) {

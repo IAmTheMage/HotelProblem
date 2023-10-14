@@ -249,6 +249,30 @@ src/Problem.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/HotelProblem.dir/build.make CMakeFiles/HotelProblem.dir/src/Problem.cpp.s
 .PHONY : src/Problem.cpp.s
 
+src/SimulatedAnnealing.o: src/SimulatedAnnealing.cpp.o
+.PHONY : src/SimulatedAnnealing.o
+
+# target to build an object file
+src/SimulatedAnnealing.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HotelProblem.dir/build.make CMakeFiles/HotelProblem.dir/src/SimulatedAnnealing.cpp.o
+.PHONY : src/SimulatedAnnealing.cpp.o
+
+src/SimulatedAnnealing.i: src/SimulatedAnnealing.cpp.i
+.PHONY : src/SimulatedAnnealing.i
+
+# target to preprocess a source file
+src/SimulatedAnnealing.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HotelProblem.dir/build.make CMakeFiles/HotelProblem.dir/src/SimulatedAnnealing.cpp.i
+.PHONY : src/SimulatedAnnealing.cpp.i
+
+src/SimulatedAnnealing.s: src/SimulatedAnnealing.cpp.s
+.PHONY : src/SimulatedAnnealing.s
+
+# target to generate assembly for a file
+src/SimulatedAnnealing.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HotelProblem.dir/build.make CMakeFiles/HotelProblem.dir/src/SimulatedAnnealing.cpp.s
+.PHONY : src/SimulatedAnnealing.cpp.s
+
 src/Solution.o: src/Solution.cpp.o
 .PHONY : src/Solution.o
 
@@ -321,6 +345,9 @@ help:
 	@echo "... src/Problem.o"
 	@echo "... src/Problem.i"
 	@echo "... src/Problem.s"
+	@echo "... src/SimulatedAnnealing.o"
+	@echo "... src/SimulatedAnnealing.i"
+	@echo "... src/SimulatedAnnealing.s"
 	@echo "... src/Solution.o"
 	@echo "... src/Solution.i"
 	@echo "... src/Solution.s"

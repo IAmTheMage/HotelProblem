@@ -14,6 +14,7 @@ class SwapCustomers : public Movement {
         ~SwapCustomers() {};
 
         Solution* exec(const Solution* sol) override {
+            bool moving = false;
             Solution* copy = new Solution(sol);
             srand(time(NULL) + getMemoryUsageInKB() + seedOffset);
             int firstTrip = rand() % sol->getTrips().size();
@@ -48,6 +49,7 @@ class SwapCustomers : public Movement {
             for(DistanceByNode dist : firstTripDistances) {
                 for(DistanceByNode dist2 : secondTripDistances) {
                     if(copy->canSwap(firstTrip, secondTrip, dist.index, dist2.index)) {
+                        moving = true;
                         copy->swap(firstTrip, secondTrip, dist.index, dist2.index);
                         running = false;
                         break;
@@ -55,6 +57,8 @@ class SwapCustomers : public Movement {
                 }
                 if(!running) break;
             }
+            //if(moving) std::cout << "Movimento efetuado" << std::endl;
+            copy->calculateSolutionScore();
             return copy;
 
         }

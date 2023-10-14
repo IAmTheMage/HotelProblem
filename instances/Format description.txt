@@ -33,5 +33,3 @@ Where
 	the next "H" lines are the extra hotels
 	the remaining lines (N-2) are the vertices
 	
-* REMARKS *
-	- The Euclidian distance is used.

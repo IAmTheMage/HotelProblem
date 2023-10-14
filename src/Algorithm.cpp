@@ -201,6 +201,7 @@ std::vector<std::vector<Node*>> Algorithm::randomGreedyIter(float alpha) {
     std::vector<Node*> hotels = this->data->getHotels();
     std::vector<Node*> customers = this->data->getCustomers();
 
+    std::vector<int> visited_node_id;
     // hotel H0 inserido na primeira trip
     solution[0].push_back(hotels[0]);
 
@@ -225,8 +226,8 @@ std::vector<std::vector<Node*>> Algorithm::randomGreedyIter(float alpha) {
             // Selecionar um candidato da lista e adicioná-lo à trip
             solution[actual_trip_index].push_back(CL[random_index]);
             // Retirar o candidato da lista
+            visited_node_id.push_back(CL[random_index]->getId());
             CL.erase(CL.begin()+random_index);
-            
             // Diminuir o tempo da trip
             trip = solution[actual_trip_index];
             //this->_tripsLength[actual_trip_index] -= this->calculateTimeBetweenNodes(trip[trip.size()-1],trip[trip.size()-2]);
@@ -234,6 +235,13 @@ std::vector<std::vector<Node*>> Algorithm::randomGreedyIter(float alpha) {
             // Reconstruir a lista
             CL = this->generateCandidateList(trip,hotels,CL,actual_trip_index);
         }
+
+        for(auto i : visited_node_id) {
+            customers.erase(std::remove_if(customers.begin(), customers.end(), [i](Node* node) {
+                return node->getId() == i;
+            }), customers.end());
+        }
+
         // Se a lista estiver vazia, adicionar o Hotel mais próximo
         for(auto hotel : hotels) {
             aux = trip[trip.size()-1];
@@ -274,7 +282,7 @@ void Algorithm::scraping_unused_customers() {
     customers.erase(std::remove_if(customers.begin(), customers.end(), element_is_in), customers.end());
 
     this->unused_customers = customers;
-    this->best_solution->setUnusedCustomers(this->unused_customers);
+    this->best_solution->setUnusedCustomers(unused_customers);
 }
 
 double Algorithm::calculateTimeBetweenNodes(Node* a, Node* b) {
@@ -295,11 +303,14 @@ std::vector<Node*> Algorithm::generateCandidateList(std::vector<Node*> trip, std
         customer->setActualBenefit(this->localHeuristc(trip[trip.size()-1], customer, tripMaxTime));
 
         // Avaliar se o tempo dele até algum hotel arbitrário está dentro do tempo da trip atual, se estiver, adicionar na lista de candidatos
-        for(auto hotel : hotels) {
-            // Leva em consideração o tempo de chegar nesse customer com o nó da trip atual e o tempo do customer chegar ao primeiro hotel possível
-            if((tripMaxTime - this->distance_matrix[customer->getId()][hotel->getId()] - this->distance_matrix[customer->getId()][trip[trip.size() - 1]->getId()]) > 0) {
-                CL.push_back(customer);
-                break;
+        if(customer->getBenefit()>=0)
+        {
+            for(auto hotel : hotels) {
+                // Leva em consideração o tempo de chegar nesse customer com o nó da trip atual e o tempo do customer chegar ao primeiro hotel possível
+                if((tripMaxTime - this->distance_matrix[customer->getId()][hotel->getId()] - this->distance_matrix[customer->getId()][trip[trip.size() - 1]->getId()]) > 0) {
+                    CL.push_back(customer);
+                    break;
+                }
             }
         }
     }
