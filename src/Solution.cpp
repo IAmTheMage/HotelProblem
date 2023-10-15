@@ -52,6 +52,8 @@ Solution::Solution(const Solution* other) {
 bool Solution::isValid() {
     this->calculateTripLength();
     std::vector<double> trips_l = this->trips_length;
+
+    // Verifica se o tamanho é válido
     for(int i=0; i< trips_l.size(); i++) {
         if(trips_l[i]>this->tripsMaxLength[i]) {
             std::cout << "[ERROR] trip " << i << "Maior que o comprimento permitido\n";
@@ -59,8 +61,9 @@ bool Solution::isValid() {
         }
     }
 
+    // verifica se o hotel do final da trip i é igual ao primeiro da trip i + 1
     for(int i=0; i<this->trips.size()-1; i++) {
-        if(trips[i].end() != trips[i+1].begin()) {
+        if(trips[i][trips[i].size()-1] != trips[i+1][0]) {
             std::cout << "[ERROR] Hotel do final da trip " << i << " diferente do hotel do início da próxima trip\n";
             return false;
         }
@@ -68,6 +71,7 @@ bool Solution::isValid() {
 
     std::unordered_set<int> uniqueElements;
 
+    // verifica se há elementos repetidos no tour
     for(auto trip : this->trips)
     {
         for (auto no : trip) {
