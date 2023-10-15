@@ -21,6 +21,7 @@ class SimulatedAnnealing {
         float cooling_factor = COOLING_FACTOR, float minimum_energy = ME, int iterations_per_temperature = ITERATIONS_PER_TEMPERATURE, 
         decay_type type = decay_type::LINEAR);
         Solution* run(const Solution* initialSolution, int verboseLevel = 10);
+        Solution* runParallel(const Solution* initialSolution, int verboseLevel = 10);
         ~SimulatedAnnealing();
 
     private:

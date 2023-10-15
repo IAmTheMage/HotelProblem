@@ -12,3 +12,9 @@ file(GLOB SOURCES "src/*.cpp")
 
 # Cria um executável a partir dos arquivos fonte
 add_executable(HotelProblem ${SOURCES})
+
+# Enable OpenMP (if supported by the compiler)
+find_package(OpenMP)
+if(OpenMP_CXX_FOUND)
+    target_link_libraries(HotelProblem PRIVATE OpenMP::OpenMP_CXX)
+endif()

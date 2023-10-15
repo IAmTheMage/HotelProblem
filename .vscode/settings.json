@@ -50,6 +50,7 @@
         "optional": "cpp",
         "ctime": "cpp",
         "cstring": "cpp",
-        "cinttypes": "cpp"
+        "cinttypes": "cpp",
+        "unordered_set": "cpp"
     }
 }

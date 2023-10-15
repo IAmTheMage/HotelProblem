@@ -204,6 +204,8 @@ bin/HotelProblem: CMakeFiles/HotelProblem.dir/src/SimulatedAnnealing.cpp.o
 bin/HotelProblem: CMakeFiles/HotelProblem.dir/src/Solution.cpp.o
 bin/HotelProblem: CMakeFiles/HotelProblem.dir/src/main.cpp.o
 bin/HotelProblem: CMakeFiles/HotelProblem.dir/build.make
+bin/HotelProblem: /usr/lib/gcc/x86_64-linux-gnu/11/libgomp.so
+bin/HotelProblem: /usr/lib/x86_64-linux-gnu/libpthread.a
 bin/HotelProblem: CMakeFiles/HotelProblem.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/iamthemage/Documentos/HotelProblem/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Linking CXX executable bin/HotelProblem"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/HotelProblem.dir/link.txt --verbose=$(VERBOSE)

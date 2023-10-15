@@ -6,6 +6,7 @@
 #include "SimulatedAnnealing.h"
 #include "SwapHotels.h"
 #include "SwapCustomersInTrip.h"
+#include "omp.h"
 
 /*
 (3, 0)
@@ -32,23 +33,15 @@ int main(int argc, char const *argv[])
 
     std::vector<Movement*> movements;
     movements.push_back(new SwapWithUnusedCostumers());
-    movements.push_back(new SwapWithUnusedCostumers());
-    movements.push_back(new SwapWithUnusedCostumers());
-    movements.push_back(new SwapWithUnusedCostumers());
-    movements.push_back(new SwapWithUnusedCostumers());
     movements.push_back(new SwapCustomers());
-    movements.push_back(new InsertNewCustomer());
-    movements.push_back(new InsertNewCustomer());
-    movements.push_back(new InsertNewCustomer());
-    movements.push_back(new InsertNewCustomer());
     movements.push_back(new InsertNewCustomer());
     movements.push_back(new SwapInTrip());
     
 
     SimulatedAnnealing* ann = new SimulatedAnnealing(movements);
 
-    std::cout << *ann->run(sol, 80) << std::endl;
-
-
+    //std::cout << *ann->run(sol, 80) << std::endl;
+    bool isValid = ann->runParallel(sol, 80);
+    std::cout << isValid << std::endl;
     return 0;
 }

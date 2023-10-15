@@ -1,5 +1,6 @@
 #include "Solution.h"
 #include <math.h>
+#include <unordered_set>
 
 Solution::Solution(Problem *data) {
     std::vector<std::vector<Node*>> trips;
@@ -56,6 +57,43 @@ void Solution::calculateSolutionScore() {
         }
     }
     this->_value;
+}
+
+bool Solution::isValid() {
+    this->calculateTripLength();
+    std::vector<double> trips_l = this->trips_length;
+
+    // Verifica se o tamanho é válido
+    for(int i=0; i< trips_l.size(); i++) {
+        if(trips_l[i]>this->tripsMaxLength[i]) {
+            std::cout << "[ERROR] trip " << i << "Maior que o comprimento permitido\n";
+            return false;
+        }
+    }
+
+    // verifica se o hotel do final da trip i é igual ao primeiro da trip i + 1
+    for(int i=0; i<this->trips.size()-1; i++) {
+        if(trips[i][trips[i].size()-1] != trips[i+1][0]) {
+            std::cout << "[ERROR] Hotel do final da trip " << i << " diferente do hotel do início da próxima trip\n";
+            return false;
+        }
+    }
+
+    std::unordered_set<int> uniqueElements;
+
+    // verifica se há elementos repetidos no tour
+    for(auto trip : this->trips)
+    {
+        for (auto no : trip) {
+            if (uniqueElements.count(no->getId()) > 0) {
+                std::cout << "[ERROR] id repetido \n";
+                return false;
+            }
+            uniqueElements.insert(no->getId());
+        }
+    }
+
+    return true;
 }
 
 double Solution::value() const {

@@ -4,6 +4,7 @@
 #include "Movement.h"
 #include "algorithm"
 
+
 bool greaterTime(const DistanceByNode& a, const DistanceByNode& b) {
     return (a.time - a.value) > (b.time - b.value);
 }

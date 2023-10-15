@@ -54,6 +54,8 @@ class Solution {
             this->unused_customers.push_back(unused);
         }
 
+        bool isValid();
+
         friend std::ostream& operator<<(std::ostream& os, const Solution& solution);
     private:
         double _value;
