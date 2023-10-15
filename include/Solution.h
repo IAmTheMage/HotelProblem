@@ -21,6 +21,8 @@ class Solution {
             }
         }
 
+        bool isValid();
+
         void setSolutionInstance(std::vector<std::vector<Node*>> ins) {this->trips = ins;}
 
         void print_solution();

@@ -1,5 +1,6 @@
 #include "Solution.h"
 #include <math.h>
+#include <unordered_set>
 
 Solution::Solution(Problem *data) {
     std::vector<std::vector<Node*>> trips;
@@ -46,6 +47,39 @@ Solution::Solution(const Solution* other) {
 
     this->calculateSolutionScore();
     this->calculateTripLength();
+}
+
+bool Solution::isValid() {
+    this->calculateTripLength();
+    std::vector<double> trips_l = this->trips_length;
+    for(int i=0; i< trips_l.size(); i++) {
+        if(trips_l[i]>this->tripsMaxLength[i]) {
+            std::cout << "[ERROR] trip " << i << "Maior que o comprimento permitido\n";
+            return false;
+        }
+    }
+
+    for(int i=0; i<this->trips.size()-1; i++) {
+        if(trips[i].end() != trips[i+1].begin()) {
+            std::cout << "[ERROR] Hotel do final da trip " << i << " diferente do hotel do início da próxima trip\n";
+            return false;
+        }
+    }
+
+    std::unordered_set<int> uniqueElements;
+
+    for(auto trip : this->trips)
+    {
+        for (auto no : trip) {
+            if (uniqueElements.count(no->getId()) > 0) {
+                std::cout << "[ERROR] id repetido \n";
+                return false;
+            }
+            uniqueElements.insert(no->getId());
+        }
+    }
+
+    return true;
 }
 
 void Solution::calculateSolutionScore() {
