@@ -13,7 +13,8 @@ class SwapWithUnusedCostumers : public Movement {
         SwapWithUnusedCostumers() {};
         ~SwapWithUnusedCostumers() {};
 
-        Solution* exec(const Solution* sol) {
+        Solution* exec(const Solution* sol) override {
+            bool moving = false;
             Solution* copy = new Solution(sol);
             srand(time(NULL) + getMemoryUsageInKB() + seedOffset);
             int firstTrip = rand() % sol->getTrips().size();
@@ -33,15 +34,22 @@ class SwapWithUnusedCostumers : public Movement {
 
             bool running = true;
             for(DistanceByNode dist : firstTripDistances) {
+                int index = 0;
                 for(Node* node : copy->getUnusedCostumers()) {
                     if(copy->canSwap(firstTrip, dist.index, node)) {
+                        moving = true;
                         copy->swap(firstTrip, dist.index, node);
+                        copy->addUnused(copy->getTrips()[firstTrip][dist.index]);
+                        copy->removeUnused(index);
                         running = false;
                         break;
                     }
+                    index++;
                 }
                 if(!running) break;
             }
+            //if(moving) std::cout << "Movimento efetuado" << std::endl;
+            copy->calculateSolutionScore();
             return copy;
 
         }

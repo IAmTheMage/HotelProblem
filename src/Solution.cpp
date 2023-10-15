@@ -43,6 +43,9 @@ Solution::Solution(const Solution* other) {
     for(Node* unused : other->unused_customers) {
         this->unused_customers.push_back(unused);
     }
+
+    this->calculateSolutionScore();
+    this->calculateTripLength();
 }
 
 void Solution::calculateSolutionScore() {
@@ -52,6 +55,7 @@ void Solution::calculateSolutionScore() {
             this->_value += node->getScore();
         }
     }
+    this->_value;
 }
 
 double Solution::value() const {
@@ -198,11 +202,54 @@ bool Solution::canSwap(int trip, int customer, Node* unused) {
     }
 
     float canSwap = this->tripsMaxLength[trip] - (this->trips_length[trip] - firstRemoveValue + toAddValue);
-    return canSwap;
+    return canSwap > 0;
 }
 
 void Solution::swap(int trip, int customer, Node* n2) {
     Node* n1 = this->trips[trip][customer];
 
     this->trips[trip][customer] = n2;
+}
+
+float Solution::getAvaliableLengthIfRemoved(int trip, int customer) {
+    this->calculateTripLength();
+    double firstRemoveValue = (double)0.0, toAddValue = (double)0.0;
+    std::vector<Node*> trip1 = this->trips[trip];
+    Node* firstCustomer = trip1[customer];
+
+    if(trip > 0) {
+        Node* afterFirstCustomer = trip1[customer + 1];
+        firstRemoveValue += sqrt(pow(firstCustomer->get_x() - afterFirstCustomer->get_x(),2) + pow(firstCustomer->get_y() - afterFirstCustomer->get_y(),2));
+        //std::cout << "1 -> sqrt(pow(" << unused->get_x() << " - " << afterFirstCustomer->get_x() << ", 2) + pow(" << unused->get_y() << " - " << afterFirstCustomer->get_y() << ", 2))" << std::endl;
+        //std::cout << "1.1 -> sqrt(pow(" << firstCustomer->get_x() << " - " << afterFirstCustomer->get_x() << ", 2) + pow(" << firstCustomer->get_y() << " - " << afterFirstCustomer->get_y() << ", 2))" << std::endl;
+    }
+    else if(trip < trip1.size() - 1) {
+        Node* beforeFirstCustomer = trip1[customer - 1];
+        firstRemoveValue += sqrt(pow(firstCustomer->get_x() - beforeFirstCustomer->get_x(),2) + pow(firstCustomer->get_y() - beforeFirstCustomer->get_y(),2));
+        //std::cout << "2 -> sqrt(pow(" << unused->get_x() << " - " << beforeFirstCustomer->get_x() << ", 2) + pow(" << unused->get_y() << " - " << beforeFirstCustomer->get_y() << ", 2))" << std::endl;
+        //std::cout << "2.1 -> sqrt(pow(" << firstCustomer->get_x() << " - " << beforeFirstCustomer->get_x() << ", 2) + pow(" << firstCustomer->get_y() << " - " << beforeFirstCustomer->get_y() << ", 2))" << std::endl;
+    }
+
+    float avaliable = this->tripsMaxLength[trip] - (this->trips_length[trip] - firstRemoveValue);
+    return avaliable;
+}
+
+float Solution::getInsertCost(Node* n1, int trip, int customer) {
+    this->calculateTripLength();
+    double cost = (double)0.0;
+    std::vector<Node*> trip1 = this->trips[trip];
+
+    if(trip > 0) {
+        Node* afterFirstCustomer = trip1[customer + 1];
+        cost += sqrt(pow(n1->get_x() - afterFirstCustomer->get_x(),2) + pow(n1->get_y() - afterFirstCustomer->get_y(),2));
+        //std::cout << "1 -> sqrt(pow(" << unused->get_x() << " - " << afterFirstCustomer->get_x() << ", 2) + pow(" << unused->get_y() << " - " << afterFirstCustomer->get_y() << ", 2))" << std::endl;
+        //std::cout << "1.1 -> sqrt(pow(" << firstCustomer->get_x() << " - " << afterFirstCustomer->get_x() << ", 2) + pow(" << firstCustomer->get_y() << " - " << afterFirstCustomer->get_y() << ", 2))" << std::endl;
+    }
+    else if(trip < trip1.size() - 1) {
+        Node* beforeFirstCustomer = trip1[customer - 1];
+        cost += sqrt(pow(n1->get_x() - beforeFirstCustomer->get_x(),2) + pow(n1->get_y() - beforeFirstCustomer->get_y(),2));
+        //std::cout << "2 -> sqrt(pow(" << unused->get_x() << " - " << beforeFirstCustomer->get_x() << ", 2) + pow(" << unused->get_y() << " - " << beforeFirstCustomer->get_y() << ", 2))" << std::endl;
+        //std::cout << "2.1 -> sqrt(pow(" << firstCustomer->get_x() << " - " << beforeFirstCustomer->get_x() << ", 2) + pow(" << firstCustomer->get_y() << " - " << beforeFirstCustomer->get_y() << ", 2))" << std::endl;
+    }
+    return cost;
 }
