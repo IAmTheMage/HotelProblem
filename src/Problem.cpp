@@ -44,23 +44,35 @@ std::ostream& operator<<(std::ostream& os, const Problem& problem) {
     return os;
 }
 
-void Problem::setFirstHotel(float x, float y, float score, float st, float opt, float clt) {
-    Node* node = new Node(x, y, score, st, opt, clt);
+void Problem::setFirstHotel(float x, float y, float score) {
+    Node* node = new Node(x, y, score);
     this->hotels[0] = node;
 }
 
-void Problem::setFinalHotel(float x, float y, float score, float st, float opt, float clt) {
-    Node* node = new Node(x, y, score, st, opt, clt);
+void Problem::setFinalHotel(float x, float y, float score) {
+    Node* node = new Node(x, y, score);
     this->hotels[this->hotels.size() - 1] = node;
 }
 
-void Problem::addHotel(float x, float y, float score, float st, float opt, float clt) {
-    Node* node = new Node(x, y, score, st, opt, clt);
+void Problem::addHotel(float x, float y, float score) {
+    Node* node = new Node(x, y, score);
     this->hotels[this->current_k] = node;
     this->current_k++;
 }
 
-void Problem::addCustomer(float x, float y, float score, float st, float opt, float clt) {
-    Node* node = new Node(x, y, score, st, opt, clt);
+void Problem::addCustomer(float x, float y, float score) {
+    Node* node = new Node(x, y, score);
     this->customers.push_back(node);
+}
+
+void Problem::setNodeIds() {
+    int k;
+    for(int i=0; i<this->hotels.size(); i++) {
+        k = i;
+        this->hotels[i]->setId(k);
+    }
+    for(int i=0; i<this->customers.size(); i++) {
+        k++;
+        this->customers[i]->setId(k);
+    }
 }

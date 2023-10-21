@@ -129,6 +129,30 @@ HotelProblem/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/HotelProblem.dir/build.make CMakeFiles/HotelProblem.dir/build
 .PHONY : HotelProblem/fast
 
+src/Algorithm.o: src/Algorithm.cpp.o
+.PHONY : src/Algorithm.o
+
+# target to build an object file
+src/Algorithm.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HotelProblem.dir/build.make CMakeFiles/HotelProblem.dir/src/Algorithm.cpp.o
+.PHONY : src/Algorithm.cpp.o
+
+src/Algorithm.i: src/Algorithm.cpp.i
+.PHONY : src/Algorithm.i
+
+# target to preprocess a source file
+src/Algorithm.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HotelProblem.dir/build.make CMakeFiles/HotelProblem.dir/src/Algorithm.cpp.i
+.PHONY : src/Algorithm.cpp.i
+
+src/Algorithm.s: src/Algorithm.cpp.s
+.PHONY : src/Algorithm.s
+
+# target to generate assembly for a file
+src/Algorithm.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HotelProblem.dir/build.make CMakeFiles/HotelProblem.dir/src/Algorithm.cpp.s
+.PHONY : src/Algorithm.cpp.s
+
 src/FileManager.o: src/FileManager.cpp.o
 .PHONY : src/FileManager.o
 
@@ -152,6 +176,30 @@ src/FileManager.s: src/FileManager.cpp.s
 src/FileManager.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/HotelProblem.dir/build.make CMakeFiles/HotelProblem.dir/src/FileManager.cpp.s
 .PHONY : src/FileManager.cpp.s
+
+src/Movement.o: src/Movement.cpp.o
+.PHONY : src/Movement.o
+
+# target to build an object file
+src/Movement.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HotelProblem.dir/build.make CMakeFiles/HotelProblem.dir/src/Movement.cpp.o
+.PHONY : src/Movement.cpp.o
+
+src/Movement.i: src/Movement.cpp.i
+.PHONY : src/Movement.i
+
+# target to preprocess a source file
+src/Movement.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HotelProblem.dir/build.make CMakeFiles/HotelProblem.dir/src/Movement.cpp.i
+.PHONY : src/Movement.cpp.i
+
+src/Movement.s: src/Movement.cpp.s
+.PHONY : src/Movement.s
+
+# target to generate assembly for a file
+src/Movement.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HotelProblem.dir/build.make CMakeFiles/HotelProblem.dir/src/Movement.cpp.s
+.PHONY : src/Movement.cpp.s
 
 src/Node.o: src/Node.cpp.o
 .PHONY : src/Node.o
@@ -201,6 +249,54 @@ src/Problem.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/HotelProblem.dir/build.make CMakeFiles/HotelProblem.dir/src/Problem.cpp.s
 .PHONY : src/Problem.cpp.s
 
+src/SimulatedAnnealing.o: src/SimulatedAnnealing.cpp.o
+.PHONY : src/SimulatedAnnealing.o
+
+# target to build an object file
+src/SimulatedAnnealing.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HotelProblem.dir/build.make CMakeFiles/HotelProblem.dir/src/SimulatedAnnealing.cpp.o
+.PHONY : src/SimulatedAnnealing.cpp.o
+
+src/SimulatedAnnealing.i: src/SimulatedAnnealing.cpp.i
+.PHONY : src/SimulatedAnnealing.i
+
+# target to preprocess a source file
+src/SimulatedAnnealing.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HotelProblem.dir/build.make CMakeFiles/HotelProblem.dir/src/SimulatedAnnealing.cpp.i
+.PHONY : src/SimulatedAnnealing.cpp.i
+
+src/SimulatedAnnealing.s: src/SimulatedAnnealing.cpp.s
+.PHONY : src/SimulatedAnnealing.s
+
+# target to generate assembly for a file
+src/SimulatedAnnealing.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HotelProblem.dir/build.make CMakeFiles/HotelProblem.dir/src/SimulatedAnnealing.cpp.s
+.PHONY : src/SimulatedAnnealing.cpp.s
+
+src/Solution.o: src/Solution.cpp.o
+.PHONY : src/Solution.o
+
+# target to build an object file
+src/Solution.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HotelProblem.dir/build.make CMakeFiles/HotelProblem.dir/src/Solution.cpp.o
+.PHONY : src/Solution.cpp.o
+
+src/Solution.i: src/Solution.cpp.i
+.PHONY : src/Solution.i
+
+# target to preprocess a source file
+src/Solution.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HotelProblem.dir/build.make CMakeFiles/HotelProblem.dir/src/Solution.cpp.i
+.PHONY : src/Solution.cpp.i
+
+src/Solution.s: src/Solution.cpp.s
+.PHONY : src/Solution.s
+
+# target to generate assembly for a file
+src/Solution.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HotelProblem.dir/build.make CMakeFiles/HotelProblem.dir/src/Solution.cpp.s
+.PHONY : src/Solution.cpp.s
+
 src/main.o: src/main.cpp.o
 .PHONY : src/main.o
 
@@ -234,15 +330,27 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... HotelProblem"
+	@echo "... src/Algorithm.o"
+	@echo "... src/Algorithm.i"
+	@echo "... src/Algorithm.s"
 	@echo "... src/FileManager.o"
 	@echo "... src/FileManager.i"
 	@echo "... src/FileManager.s"
+	@echo "... src/Movement.o"
+	@echo "... src/Movement.i"
+	@echo "... src/Movement.s"
 	@echo "... src/Node.o"
 	@echo "... src/Node.i"
 	@echo "... src/Node.s"
 	@echo "... src/Problem.o"
 	@echo "... src/Problem.i"
 	@echo "... src/Problem.s"
+	@echo "... src/SimulatedAnnealing.o"
+	@echo "... src/SimulatedAnnealing.i"
+	@echo "... src/SimulatedAnnealing.s"
+	@echo "... src/Solution.o"
+	@echo "... src/Solution.i"
+	@echo "... src/Solution.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
